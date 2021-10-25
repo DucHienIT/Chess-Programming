@@ -241,7 +241,7 @@ namespace Chess_Programming
             pnlHistory.Controls.Clear();
             pnlHistory.Visible = true;
 
-            
+           
             pnlCapturedPiece1.Controls.Clear();
             pnlCapturedPiece2.Controls.Clear();
             pnlCapturedPiece1.Visible = true;
@@ -545,7 +545,7 @@ namespace Chess_Programming
             return str.ToString().Trim();
         }
 
-     
+       
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
@@ -624,7 +624,8 @@ namespace Chess_Programming
             }
         }
 
-      
+       
+
 
 
         private void btnNewGame_Click(object sender, EventArgs e)
@@ -746,10 +747,7 @@ namespace Chess_Programming
             }
         }
 
-       
-        
-
-        
+     
         SoundPlayer soundNewGame;
         private void frmMain_Load(object sender, EventArgs e)
         {
@@ -789,89 +787,7 @@ namespace Chess_Programming
             frm.ShowDialog();
         }
 
-        private void btnOptions_Click_1(object sender, EventArgs e)
-        {
-            string strFEN = "";
-            if (Board != null)
-            {
-                strFEN = clsFEN.GetFEN(Board);
-            }
-
-            frmOptions frm = new frmOptions();
-            if (frm.ShowDialog() == DialogResult.OK && Board != null)
-            {
-
-                this._OwnSide = Board.OwnSide;
-                this._GameMode = Board.GameMode;
-                Stack Black, White, State;
-
-                Black = (Stack)Board.stkBlackMoves.Clone();
-                White = (Stack)Board.stkWhiteMoves.Clone();
-                State = (Stack)Board.stkState.Clone();
-
-                Stack Captured = new Stack();
-                foreach (UcChessPiece piece in Board.stkCapturedPieces)
-                {
-                    UcChessPiece p = new UcChessPiece();
-                    p.PositionX = piece.PositionX;
-                    p.PositionY = piece.PositionY;
-                    p.Location = piece.Location;
-                    p.Side = piece.Side;
-                    p.Type = piece.Type;
-                    Captured.Push(p);
-                }
-
-                if (this._GameMode == GameMode.VsComputer)
-                {
-                    GameDifficulty diff = Board.Difficulty;
-
-                    short m1, s1, m2, s2;
-                    m1 = UcCountDownTimer1.Minute;
-                    m2 = UcCountDownTimer2.Minute;
-                    s1 = UcCountDownTimer1.Second;
-                    s2 = UcCountDownTimer2.Second;
-                    CreateChessBoard(this._OwnSide, this._GameMode, diff, strFEN);
-                    UcCountDownTimer1.Minute = m1;
-                    UcCountDownTimer2.Minute = m2;
-                    UcCountDownTimer1.Second = s1;
-                    UcCountDownTimer2.Second = s2;
-                }
-                else
-                {
-
-                    short m1, s1, m2, s2;
-                    m1 = UcCountDownTimer1.Minute;
-                    m2 = UcCountDownTimer2.Minute;
-                    s1 = UcCountDownTimer1.Second;
-                    s2 = UcCountDownTimer2.Second;
-                    CreateChessBoard(this._OwnSide, this._GameMode, strFEN);
-                    UcCountDownTimer1.Minute = m1;
-                    UcCountDownTimer2.Minute = m2;
-                    UcCountDownTimer1.Second = s1;
-                    UcCountDownTimer2.Second = s2;
-                }
-                Board.stkBlackMoves = Black;
-                Board.stkWhiteMoves = White;
-                Board.stkState = State;
-                clsOptions obj = new clsOptions();
-                foreach (UcChessPiece piece in Captured)
-                {
-                    UcChessPiece p = new UcChessPiece(piece.Side, piece.Type, obj.PieceStyle, obj.CellSize, obj.PieceSize, piece.PositionX, piece.PositionY, Board.arrChessCell[piece.PositionX, piece.PositionY]);
-                    Board.stkCapturedPieces.Push(p);
-                }
-
-                ucCapturedPieces1.LoadPieces(Board.stkCapturedPieces);
-                ucCapturedPieces2.LoadPieces(Board.stkCapturedPieces);
-                UcMovesHistory1.LoadMovesHistory(Board.stkWhiteMoves, Board.stkBlackMoves);
-            }
-        }
-
-        private void ribbonBar7_ItemClick(object sender, EventArgs e)
-        {
-
-        }
-
-        
+      
 
         private void buttonItem2_Click(object sender, EventArgs e)
         {
